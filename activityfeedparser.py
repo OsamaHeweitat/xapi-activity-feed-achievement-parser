@@ -33,4 +33,4 @@ if match_game or match_name or match_date:
             output[n] = output[n] + " | " + i
         n += 1
 print('\n'.join(output))
-    
+input("\nPress any button to exit.")
