@@ -1,15 +1,17 @@
+import requests
 import re
 
-
-string = input("Input xAPI-generated activity feed:")
+auth_key = input("Input X API Authentication Key:")
+url = "https://xapi.us/v2/activity-feed"
+headers={'X-AUTH': auth_key}
+string = requests.get(url, headers=headers)
 repls_game = {"\"":"", ":":": "}
 repls_name = {"\"":"", ":":": "}
 repls_date = {"\"":"", "date:":"Date: ", "T":" | Time: "}
 output = []
-
-match_game = re.findall(r'\"vuiDisplayName...([\s\S]*?)\"', string, flags=re.IGNORECASE)
-match_name = re.findall(r'\"achievementName...([\s\S]*?)\"', string, flags=re.IGNORECASE)
-match_date = re.findall(r'\"date.{26}', string, flags=re.IGNORECASE)
+match_game = re.findall(r'\"vuiDisplayName...([\s\S]*?)\"', string.text, flags=re.IGNORECASE)
+match_name = re.findall(r'\"achievementName...([\s\S]*?)\"', string.text, flags=re.IGNORECASE)
+match_date = re.findall(r'\"date.{26}', string.text, flags=re.IGNORECASE)
 if match_game or match_name or match_date:
     print("\nOUTPUT: \n")
     for i in match_game:
@@ -33,4 +35,4 @@ if match_game or match_name or match_date:
             output[n] = output[n] + " | " + i
         n += 1
 print('\n'.join(output))
-input("\nPress any button to exit.")
+input("\nPress enter to exit.")
